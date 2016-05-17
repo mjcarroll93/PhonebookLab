@@ -3,23 +3,27 @@ package io.michaelcarroll;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
 import static org.junit.Assert.assertEquals;
 
 
 public class PhonebookTest {
 
     Phonebook phonebook;
+    Citizen citizen;
+    Citizen citizen2;
 
     @Before
     public void setup() {
         phonebook = new Phonebook();
+        citizen = new Citizen();
+        citizen2 = new Citizen();
     }
 
     @Test
     public void addEntryToPhonebookTest() {
-        phonebook.addEntry("MC", "213-456-4567");
+        citizen.setName("MC");
+        citizen.addPhoneNumbers("213-456-4567");
+        phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
         int expectedValue = 1;
         int actualValue = phonebook.getNumberOfListingsInPhonebook();
         assertEquals("The expected value is 1", expectedValue, actualValue);
@@ -27,15 +31,20 @@ public class PhonebookTest {
 
     @Test
     public void lookupPhoneNumberByNameTest() {
-        phonebook.addEntry("Michael Jordan", "215-345-5678");
-        String expectedValue = "215-345-5678";
-        String actualValue = phonebook.lookupNumberByName("Michael Jordan");
-        assertEquals("The expected number is 215-345-5678", expectedValue, actualValue);
+        citizen.setName("MC");
+        citizen.addPhoneNumbers("213-456-4567");
+        phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
+        String expectedValue = "213-456-4567\n";
+        String actualValue = phonebook.lookupNumberByName("MC");
+        assertEquals("The expected number is 213-456-4567", expectedValue, actualValue);
     }
 
     @Test
     public void removeEntryFromPhonebookTest() {
-        phonebook.addEntry("TJ", "267-879-6785");
+        citizen.setName("TJ");
+        citizen.addPhoneNumbers("215-333-5566");
+        citizen.addPhoneNumbers("215-999-9999");
+        phonebook.addEntry("TJ", citizen.getPhoneNumbers());
         int expectedSize = 1;
         int actualSize = phonebook.getNumberOfListingsInPhonebook();
         assertEquals("The size should start out at 1", expectedSize, actualSize);
@@ -47,9 +56,13 @@ public class PhonebookTest {
 
     @Test
     public void listAllNamesInPhonebookTest() {
-        phonebook.addEntry("TJ", "215-345-5678");
-        phonebook.addEntry("Michael Carroll", "215-378-6666");
-        String expectedValue = "Michael Carroll\nTJ\n";
+        citizen.setName("Michael");
+        citizen.addPhoneNumbers("215-333-5566");
+        citizen2.setName("TJ");
+        citizen2.addPhoneNumbers("213-444-5555");
+        phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
+        phonebook.addEntry(citizen2.getName(), citizen2.getPhoneNumbers());
+        String expectedValue = "Michael\nTJ\n";
         String actualValue = phonebook.listAllNamesinPhonebook();
         assertEquals("The expected return is Michael Carroll\n" +
                 "TJ\n", expectedValue, actualValue);
@@ -57,19 +70,25 @@ public class PhonebookTest {
 
     @Test
     public void listAllNamesAndPhoneNumbersInPhonebookTest() {
-        phonebook.addEntry("TJ", "215-345-5678");
-        phonebook.addEntry("Michael Carroll", "215-378-6666");
-        String expectedValue = "Michael Carroll : 215-378-6666\nTJ : 215-345-5678\n";
+        citizen.setName("Michael");
+        citizen.addPhoneNumbers("215-333-5566");
+        citizen2.setName("TJ");
+        citizen2.addPhoneNumbers("213-444-5555");
+        phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
+        phonebook.addEntry(citizen2.getName(), citizen2.getPhoneNumbers());
+        String expectedValue = "Michael : [215-333-5566]\nTJ : [213-444-5555]\n";
         String actualValue = phonebook.listAllNamesAndPhoneNumbersInPhonebook();
-        assertEquals("The expected return is Michael Carroll : 215-378-6666\n" +
+        assertEquals("The expected return is Michael : 215-378-6666\n" +
                 "TJ : 215-345-5678\n", expectedValue, actualValue);
     }
 
     @Test
     public void reverseLookupTest() {
-        phonebook.addEntry("Kobe Bryant", "215-888-2424");
+        citizen.setName("Kobe Bryant");
+        citizen.addPhoneNumbers("215-333-5566");
+        phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
         String expectedValue = "Kobe Bryant";
-        String actualValue = phonebook.reverseLookupByNumber("215-888-2424");
+        String actualValue = phonebook.reverseLookupByNumber("215-333-5566");
         assertEquals("The expected return value is Kobe Bryant", expectedValue, actualValue);
 
     }

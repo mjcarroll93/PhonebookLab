@@ -1,18 +1,24 @@
 package io.michaelcarroll;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class Phonebook {
 
-    private Map<String, String> phonebookMap = new TreeMap<>();
+    private Map<String, ArrayList<String>> phonebookMap = new TreeMap<>();
 
-    public void addEntry(String name, String phonenumber) {
-        phonebookMap.put(name, phonenumber);
+    public void addEntry(String name, ArrayList phoneNumbers) {
+
+        phonebookMap.put(name, phoneNumbers);
     }
 
-    public String lookupNumberByName(String number) {
-        return phonebookMap.get(number);
+    public String lookupNumberByName(String name) {
+        String numbers = "";
+        for(String number : phonebookMap.get(name)){
+            numbers += number+"\n";
+        }
+        return numbers;
     }
 
     public int getNumberOfListingsInPhonebook() {
@@ -33,9 +39,9 @@ public class Phonebook {
 
     public String listAllNamesAndPhoneNumbersInPhonebook() {
         String allNamesAndNumbers = "";
-        for (Map.Entry<String, String> entry : phonebookMap.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entry : phonebookMap.entrySet()) {
             String key = entry.getKey();
-            String value = entry.getValue();
+            ArrayList<String> value = entry.getValue();
             allNamesAndNumbers += key + " : " + value + "\n";
         }
         return allNamesAndNumbers;
@@ -43,7 +49,7 @@ public class Phonebook {
 
     public String reverseLookupByNumber(String number) {
         for (String key : phonebookMap.keySet()) {
-            if (phonebookMap.get(key).equals(number)) {
+            if (phonebookMap.get(key).contains(number)) {
                 return key;
             }
         }
