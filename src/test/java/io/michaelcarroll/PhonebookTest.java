@@ -63,7 +63,7 @@ public class PhonebookTest {
         phonebook.addEntry(citizen.getName(), citizen.getPhoneNumbers());
         phonebook.addEntry(citizen2.getName(), citizen2.getPhoneNumbers());
         String expectedValue = "Michael\nTJ\n";
-        String actualValue = phonebook.listAllNamesinPhonebook();
+        String actualValue = phonebook.listAllNamesInPhonebook();
         assertEquals("The expected return is Michael Carroll\n" +
                 "TJ\n", expectedValue, actualValue);
     }

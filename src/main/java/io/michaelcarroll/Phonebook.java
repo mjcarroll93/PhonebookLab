@@ -29,7 +29,7 @@ public class Phonebook {
         phonebookMap.remove(name);
     }
 
-    public String listAllNamesinPhonebook() {
+    public String listAllNamesInPhonebook() {
         String allNames = "";
         for (String key : phonebookMap.keySet()) {
             allNames += key + "\n";
